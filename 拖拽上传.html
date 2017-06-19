@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽上传</title>
+	<style>
+		#box{
+			width: 500px;
+			height: 500px;
+			border: 2px dashed #bbb;
+			margin: 50px auto 0;
+		}
+		img{border: none;display: inline-block;}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+
+	<script>
+		var oBox = document.getElementById('box');
+		oBox.ondragenter = function(){
+			// console.log('enter');
+			this.style.borderColor = '#f00';
+		};
+		oBox.ondragover = function(e){
+			e = e || window.event;
+			// console.log('over');
+			e.preventDefault(); //阻止默认事件才能触发drop事件
+			// return false;
+		};
+		oBox.ondragleave = function(){
+			// console.log('leave');
+			this.style.borderColor = '#bbb';
+		};
+		oBox.ondrop = function(e){
+			this.style.borderColor = '#bbb';
+			// console.log('drop');
+			e.preventDefault(); //阻止默认事件才能方式浏览器会自动识别显示目标文件
+			// return false;
+			var files = e.dataTransfer.files; //获取文件列表
+			for (var i = 0; i < files.length; i++) {
+				var fileType = files[i].type;
+				switch (fileType) {
+					case 'image/jpeg':
+						var fl = new FileReader();
+						fl.readAsDataURL(files[i]);
+						fl.onload = function () {
+							var oImg = new Image();
+							oImg.src = this.result;
+							oImg.width = '250';
+							oImg.height = '250';
+							oBox.append(oImg);
+						};
+						break;
+					default:
+						console.log('未知类型文件');
+				}
+			}
+		};
+	</script>
+</body>
+</html>
