@@ -68,7 +68,6 @@ a{
 .head .box .nav ul li a{
 	display: block;
 	color: #fff;
-	transition: background-color 1s;
 }
 .head .box .nav ul li a:hover{
 	background-color: #FF601F;
